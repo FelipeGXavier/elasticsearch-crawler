@@ -1,10 +1,8 @@
 package app;
 
-import entities.Sample;
-import health.DefaultHealthCheck;
+import captura.entities.ArticleEntity;
+import captura.health.DefaultHealthCheck;
 import io.dropwizard.Application;
-import io.dropwizard.db.DataSourceFactory;
-import io.dropwizard.hibernate.HibernateBundle;
 import io.dropwizard.setup.Bootstrap;
 import io.dropwizard.setup.Environment;
 import ru.vyarus.dropwizard.guice.GuiceBundle;
@@ -23,11 +21,11 @@ public class JournalSearchApplication extends Application<JournalSearchConfigura
 
     @Override
     public void initialize(Bootstrap<JournalSearchConfiguration> bootstrap) {
-        var hbnBundle = new HbnBundle(Sample.class);
+        var hbnBundle = new HbnBundle(ArticleEntity.class);
         bootstrap.addBundle(hbnBundle);
         bootstrap.addBundle(
                 GuiceBundle.builder()
-                        .enableAutoConfig("resources")
+                        .enableAutoConfig("captura.resources")
                         .printDiagnosticInfo()
                         .modules(new HbnModule(hbnBundle))
                         .build());

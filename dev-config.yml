@@ -15,4 +15,4 @@ database:
   properties:
     charSet: UTF-8
     hibernate.dialect: org.hibernate.dialect.PostgreSQLDialect
-    hibernate.hbm2ddl.auto: create
+    hibernate.hbm2ddl.auto: create-drop

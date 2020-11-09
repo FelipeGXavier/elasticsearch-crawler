@@ -1,4 +1,4 @@
-package health;
+package captura.health;
 
 import com.codahale.metrics.health.HealthCheck;
 

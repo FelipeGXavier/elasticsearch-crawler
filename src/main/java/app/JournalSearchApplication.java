@@ -1,7 +1,7 @@
 package app;
 
-import captura.entities.ArticleEntity;
-import captura.health.DefaultHealthCheck;
+import captura.infra.entities.ArticleEntity;
+import captura.infra.health.DefaultHealthCheck;
 import io.dropwizard.Application;
 import io.dropwizard.setup.Bootstrap;
 import io.dropwizard.setup.Environment;
@@ -25,7 +25,7 @@ public class JournalSearchApplication extends Application<JournalSearchConfigura
         bootstrap.addBundle(hbnBundle);
         bootstrap.addBundle(
                 GuiceBundle.builder()
-                        .enableAutoConfig("captura.resources")
+                        .enableAutoConfig("captura")
                         .printDiagnosticInfo()
                         .modules(new HbnModule(hbnBundle))
                         .build());

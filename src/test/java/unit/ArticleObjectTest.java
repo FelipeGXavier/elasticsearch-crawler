@@ -1,70 +1,69 @@
 package unit;
 
 import captura.domain.ArticleObject;
-import captura.exceptions.InvalidArticleObject;
+import captura.core.InvalidArticleObject;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 public class ArticleObjectTest {
 
-    @Test
-    @DisplayName("check if null value throw an exception")
-    public void checkNullText() {
+  @Test
+  @DisplayName("check if null value throw an exception")
+  public void checkNullText() {
+    Assertions.assertThrows(
+        NullPointerException.class,
+        () -> {
+          ArticleObject.of(null);
+        });
+  }
+
+  @Test
+  @DisplayName("check if valid text returns valid instance")
+  public void checkValidObject() throws InvalidArticleObject {
+    final var input = "Lorem ipsum dolor sit amet, consectetur adipiscing elit.";
+    var articleObject = ArticleObject.of(input);
+    Assertions.assertEquals(input, articleObject.getText());
+  }
+
+  @Test
+  @DisplayName("check if given text is invalid for constraint of min length")
+  public void checkObjectLessThanMinLength() {
+    final var input = "";
+    var exception =
         Assertions.assertThrows(
-                NullPointerException.class,
-                () -> {
-                    ArticleObject.of(null);
-                });
-    }
+            InvalidArticleObject.class,
+            () -> {
+              ArticleObject.of(input);
+            });
+    var expectedMessage = "Invalid object text";
+    var actualMessage = exception.getMessage();
+    Assertions.assertTrue(actualMessage.contains(expectedMessage));
+  }
 
-    @Test
-    @DisplayName("check if valid text returns valid instance")
-    public void checkValidObject() {
-        final var input = "Lorem ipsum dolor sit amet, consectetur adipiscing elit.";
-        var articleObject = ArticleObject.of(input);
-        Assertions.assertEquals(input, articleObject.getText());
-    }
+  @Test
+  @DisplayName("check if given text is invalid for constraint of max length")
+  public void checkObjectGreaterThanMaxLength() {
+    final var input =
+        "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";
+    var exception =
+        Assertions.assertThrows(
+            InvalidArticleObject.class,
+            () -> {
+              ArticleObject.of(input);
+            });
+    var expectedMessage = "Invalid object text";
+    var actualMessage = exception.getMessage();
+    Assertions.assertTrue(actualMessage.contains(expectedMessage));
+  }
 
-    @Test
-    @DisplayName("check if given text is invalid for constraint of min length")
-    public void checkObjectLessThanMinLength() {
-        final var input = "";
-        var exception =
-                Assertions.assertThrows(
-                        InvalidArticleObject.class,
-                        () -> {
-                            ArticleObject.of(input);
-                        });
-        var expectedMessage = "Invalid object text";
-        var actualMessage = exception.getMessage();
-        Assertions.assertTrue(actualMessage.contains(expectedMessage));
-    }
-
-    @Test
-    @DisplayName("check if given text is invalid for constraint of max length")
-    public void checkObjectGreaterThanMaxLength() {
-        final var input =
-                "Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Donec quam felis, ultricies nec, pellentesque eu, pretium quis, sem. Nulla consequat massa quis enim. Donec pede justo, fringilla vel, aliquet nec, vulputate eget, arcu. In enim justo, rhoncus ut, imperdiet a, venenatis vitae, justo. Nullam dictum felis eu pede mollis pretium. Integer tincidunt. Cras dapibus. Vivamus elementum semper nisi. Aenean vulputate eleifend tellus. Aenean leo ligula, porttitor eu, consequat vitae, eleifend ac, enim. Aliquam lorem ante, dapibus in, viverra quis, feugiat a, tellus. Phasellus viverra nulla ut metus varius laoreet. Quisque rutrum. Aenean imperdiet. Etiam ultricies nisi vel augue. Curabitur ullamcorper ultricies nisi. Nam eget dui. Etiam rhoncus. Maecenas tempus, tellus eget condimentum rhoncus, sem quam semper libero, sit amet adipiscing sem neque sed ipsum. Nam quam nunc, blandit vel, luctus pulvinar, hendrerit id, lorem. Maecenas nec odio et ante tincidunt tempus. Donec vitae sapien ut libero venenatis faucibus. Nullam quis ante. Etiam sit amet orci eget eros faucibus tincidunt. Duis leo. Sed fringilla mauris sit amet nibh. Donec sodales sagittis magna. Sed consequat, leo eget bibendum sodales, augue velit cursus nunc, quis gravida magna mi a libero. Fusce vulputate eleifend sapien. Vestibulum purus quam, scelerisque ut, mollis sed, nonummy id, metus. Nullam accumsan lorem in dui. Cras ultricies mi eu turpis hendrerit fringilla. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; In ac dui quis mi consectetuer lacinia. Nam pretium turpis et arcu. Duis arcu tortor, suscipit eget, imperdiet nec, imperdiet iaculis, ipsum. Sed aliquam ultrices mauris. Integer ante arcu, accumsan a, consectetuer eget, posuere ut, mauris. Praesent adipiscing. Phasellus ullamcorper ipsum rutrum nunc. Nunc nonummy metus. Vestibulum volutpat pretium libero. Cras id dui. Aenean ut eros et nisl sagittis vestibulum. Nullam nulla eros, ultricies sit amet, nonummy id, imperdiet feugiat, pede. Sed lectus. Donec mollis hendrerit risus. Phasellus nec sem in justo pellentesque facilisis. Etiam imperdiet imperdiet orci. Nunc nec neque. Phasellus leo dolor, tempus non, auctor et, hendrerit quis, nisi. Curabitur ligula sapien, tincidunt non, euismod vitae, posuere imperdiet, leo. Maecenas malesuada. Praesent congue erat at massa. S";
-        var exception =
-                Assertions.assertThrows(
-                        InvalidArticleObject.class,
-                        () -> {
-                            ArticleObject.of(input);
-                        });
-        var expectedMessage = "Invalid object text";
-        var actualMessage = exception.getMessage();
-        Assertions.assertTrue(actualMessage.contains(expectedMessage));
-    }
-
-    @Test
-    @DisplayName(
-            "check if parse text to html is removing html tags and replacing double white spaces")
-    public void checkObjectStripHtmlTags() {
-        final var input =
-                "<p>Lorem <b>ipsum</b> dolor sit amet,    consectetur adipiscing elit.</p>";
-        var articleObject = ArticleObject.of(input);
-        var expectedText = "Lorem ipsum dolor sit amet, consectetur adipiscing elit.";
-        Assertions.assertEquals(articleObject.getText(), expectedText);
-    }
+  @Test
+  @DisplayName(
+      "check if parse text to html is removing html tags and replacing double white spaces")
+  public void checkObjectStripHtmlTags() throws InvalidArticleObject {
+    final var input = "<p>Lorem <b>ipsum</b> dolor sit amet,    consectetur adipiscing elit.</p>";
+    var articleObject = ArticleObject.of(input);
+    var expectedText = "Lorem ipsum dolor sit amet, consectetur adipiscing elit.";
+    Assertions.assertEquals(articleObject.getText(), expectedText);
+  }
 }

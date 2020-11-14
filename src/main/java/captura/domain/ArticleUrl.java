@@ -1,9 +1,6 @@
 package captura.domain;
 
-import captura.exceptions.InvalidArticleUrl;
-import org.hibernate.validator.internal.constraintvalidators.hv.URLValidator;
-
-import java.net.URI;
+import captura.core.InvalidArticleUrl;
 import java.net.URL;
 
 import static io.dropwizard.logback.shaded.guava.base.Preconditions.checkNotNull;
@@ -16,7 +13,7 @@ public class ArticleUrl {
         this.url = url;
     }
 
-    public static ArticleUrl of(String url) {
+    public static ArticleUrl of(String url) throws InvalidArticleUrl {
         checkNotNull(url);
         try {
             new URL(url);

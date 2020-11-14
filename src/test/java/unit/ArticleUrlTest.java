@@ -1,7 +1,7 @@
 package unit;
 
 import captura.domain.ArticleUrl;
-import captura.exceptions.InvalidArticleUrl;
+import captura.core.InvalidArticleUrl;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -20,7 +20,7 @@ public class ArticleUrlTest {
 
     @Test
     @DisplayName("check if given url is valid for article")
-    public void checkValidUrl() {
+    public void checkValidUrl() throws InvalidArticleUrl {
         final var url = "https://www.google.com/";
         var articleUrl = ArticleUrl.of(url);
         Assertions.assertEquals(articleUrl.getUrl(), url);

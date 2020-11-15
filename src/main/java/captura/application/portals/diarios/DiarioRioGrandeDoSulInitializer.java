@@ -1,13 +1,15 @@
 package captura.application.portals.diarios;
 
-import captura.core.InvalidArticleObject;
-import captura.core.JsonConverterUtil;
+import app.JournalSearchConfiguration;
+import captura.infra.JsonConverterUtil;
 import captura.core.ScrapperInitializer;
 import captura.domain.ArticleRepository;
 import org.json.JSONArray;
 import org.json.JSONObject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import shared.ElasticConnection;
+import shared.ElasticSearchClient;
 
 import javax.inject.Inject;
 import java.io.IOException;
@@ -18,11 +20,13 @@ import java.util.HashMap;
 public class DiarioRioGrandeDoSulInitializer extends ScrapperInitializer {
 
     private final ArticleRepository repository;
+    private final ElasticSearchClient client;
     private final Logger logger = LoggerFactory.getLogger(this.getClass().getCanonicalName());
 
     @Inject
-    public DiarioRioGrandeDoSulInitializer(ArticleRepository model) {
+    public DiarioRioGrandeDoSulInitializer(ArticleRepository model, ElasticSearchClient client) {
         this.repository = model;
+        this.client = client;
     }
 
     public void init() throws IOException {
@@ -48,7 +52,7 @@ public class DiarioRioGrandeDoSulInitializer extends ScrapperInitializer {
 
     private void iterateJsonDataToScrap(JSONArray data) throws IOException {
         for (var i = 0; i < data.length(); i++) {
-            new DiarioRioGrandeDoSulHandler(this.repository, new JSONObject(data.get(i).toString())).execute();
+            new DiarioRioGrandeDoSulHandler(this.repository, this.client, new JSONObject(data.get(i).toString())).execute();
         }
     }
 

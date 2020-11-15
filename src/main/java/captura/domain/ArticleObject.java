@@ -1,6 +1,5 @@
 package captura.domain;
 
-import captura.core.InvalidArticleObject;
 import org.jsoup.Jsoup;
 
 import java.nio.charset.StandardCharsets;

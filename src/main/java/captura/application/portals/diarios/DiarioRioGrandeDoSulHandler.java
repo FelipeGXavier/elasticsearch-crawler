@@ -1,6 +1,6 @@
 package captura.application.portals.diarios;
 
-import captura.core.JsonConverterUtil;
+import captura.infra.JsonConverterUtil;
 import captura.core.ScrapperHandler;
 import captura.domain.Article;
 import captura.domain.ArticleObject;
@@ -10,6 +10,7 @@ import org.json.JSONObject;
 import org.jsoup.Jsoup;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import shared.ElasticSearchClient;
 
 import java.io.IOException;
 import java.time.LocalDateTime;
@@ -17,17 +18,21 @@ import java.util.HashMap;
 
 public class DiarioRioGrandeDoSulHandler extends ScrapperHandler {
 
-    private JSONObject data;
-    private ArticleRepository repository;
-    private Logger logger = LoggerFactory.getLogger(this.getClass().getCanonicalName());
+    private final JSONObject data;
+    private final ArticleRepository repository;
+    private final ElasticSearchClient client;
+    private final Logger logger = LoggerFactory.getLogger(this.getClass().getCanonicalName());
+    private final String ELASTICSEARCH_INDEX = "articles";
 
-    public DiarioRioGrandeDoSulHandler(ArticleRepository repository, JSONObject data) {
+    public DiarioRioGrandeDoSulHandler(ArticleRepository repository, ElasticSearchClient client, JSONObject data) {
         this.repository = repository;
         this.data = data;
+        this.client = client;
     }
 
     @Override
     protected void execute() throws IOException {
+        this.client.typeOfResponse();
         final var baseUrl = "https://www.diariooficial.rs.gov.br/materia?id=%s";
         var id = this.data.getJSONObject("procergs").getInt("id");
         var url = String.format(baseUrl, id);
@@ -42,11 +47,22 @@ public class DiarioRioGrandeDoSulHandler extends ScrapperHandler {
                     var articleObject = ArticleObject.of(tag.text());
                     var articleUrl = ArticleUrl.of(url);
                     var article = Article.of(articleObject, articleUrl);
-                    this.repository.create(article.getTextObject(), article.getTextUrl(), LocalDateTime.now());
+                    var timestamp = LocalDateTime.now();
+                    this.repository.create(article.getTextObject(), article.getTextUrl(), timestamp);
+                    this.client.insert(ELASTICSEARCH_INDEX, this.toJson(article, timestamp));
+                    this.logger.info("saved article for id " + this.client.getId());
                 }
             } catch (Exception e) {
                 this.logger.error("error to save article", e);
             }
         }
+    }
+
+    private JSONObject toJson(Article entity, LocalDateTime timestamp) {
+        var json = new JSONObject();
+        json.put("content", entity.getTextObject());
+        json.put("url", entity.getTextUrl());
+        json.put("created_at", timestamp);
+        return json;
     }
 }

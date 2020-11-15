@@ -28,5 +28,10 @@ logging:
       archivedFileCount: 5
       timeZone: UTC
 
+elastic:
+  port: 9200
+  host: "localhost"
+
+
 schedule: "0 0 0/12 ? * * *"
 

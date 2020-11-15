@@ -1,4 +1,4 @@
-package captura.core;
+package captura.infra;
 
 import org.json.JSONArray;
 import org.json.JSONObject;

@@ -1,6 +1,5 @@
 package captura.domain;
 
-import captura.core.InvalidArticleUrl;
 import java.net.URL;
 
 import static io.dropwizard.logback.shaded.guava.base.Preconditions.checkNotNull;

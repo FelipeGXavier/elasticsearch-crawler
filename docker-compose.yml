@@ -13,3 +13,25 @@ services:
     ports:
       - "8080:8080"
       - "8081:8081"
+  elastic:
+    #sudo sysctl -w vm.max_map_count=280530
+    image: docker.elastic.co/elasticsearch/elasticsearch:7.8.0
+    container_name: elastic
+    network_mode: 'host'
+    environment:
+      - node.name=es01
+      - cluster.name=es-docker-cluster
+      - cluster.initial_master_nodes=es01
+      - bootstrap.memory_lock=true
+      - "ES_JAVA_OPTS=-Xms1024m -Xmx1024m"
+    ulimits:
+      memlock:
+        soft: -1
+        hard: -1
+  kibana:
+    image: docker.elastic.co/kibana/kibana:7.8.0
+    container_name: 'kibana'
+    network_mode: "host"
+    environment:
+      ELASTICSEARCH_HOSTS: http://localhost:9200
+

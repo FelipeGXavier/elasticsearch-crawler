@@ -1,7 +1,7 @@
 package unit;
 
 import captura.domain.ArticleUrl;
-import captura.core.InvalidArticleUrl;
+import captura.domain.InvalidArticleUrl;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;

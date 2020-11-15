@@ -1,4 +1,4 @@
-package captura.core;
+package captura.infra;
 
 import org.jsoup.Connection;
 import org.jsoup.Jsoup;
@@ -6,7 +6,7 @@ import org.jsoup.Jsoup;
 import java.io.IOException;
 import java.util.Map;
 
-public class Scrapper {
+public class Connector {
 
     private final int TIMEOUT_CONNECTION = 60000;
 

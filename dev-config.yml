@@ -1,4 +1,11 @@
 server:
+  requestLog:
+    appenders:
+      - type: file
+        currentLogFilename: ./logs/request.log
+        archivedLogFilenamePattern: ./logs/request-%d.log.gz
+        archivedFileCount: 5
+        timeZone: UTC
   applicationContextPath: /v1
   adminContextPath: /
   applicationConnectors:
@@ -12,6 +19,14 @@ database:
   driverClass: org.postgresql.Driver
   password: postgres
   url: jdbc:postgresql://172.21.0.2:5432/journal
+
+logging:
+  appenders:
+    - type: file
+      currentLogFilename: ./logs/captura.log
+      archivedLogFilenamePattern: ./logs/captura-%d.log.gz
+      archivedFileCount: 5
+      timeZone: UTC
 
 schedule: "0 0 0/12 ? * * *"
 

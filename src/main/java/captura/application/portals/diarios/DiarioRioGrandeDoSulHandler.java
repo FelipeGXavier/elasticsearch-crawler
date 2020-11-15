@@ -8,6 +8,8 @@ import captura.domain.ArticleRepository;
 import captura.domain.ArticleUrl;
 import org.json.JSONObject;
 import org.jsoup.Jsoup;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
 import java.time.LocalDateTime;
@@ -17,6 +19,7 @@ public class DiarioRioGrandeDoSulHandler extends ScrapperHandler {
 
     private JSONObject data;
     private ArticleRepository repository;
+    private Logger logger = LoggerFactory.getLogger(this.getClass().getCanonicalName());
 
     public DiarioRioGrandeDoSulHandler(ArticleRepository repository, JSONObject data) {
         this.repository = repository;
@@ -42,7 +45,7 @@ public class DiarioRioGrandeDoSulHandler extends ScrapperHandler {
                     this.repository.create(article.getTextObject(), article.getTextUrl(), LocalDateTime.now());
                 }
             } catch (Exception e) {
-                e.printStackTrace();
+                this.logger.error("error to save article", e);
             }
         }
     }

@@ -1,5 +1,6 @@
 package app;
 
+import captura.core.RequestFilter;
 import captura.infra.health.DefaultHealthCheck;
 import captura.infra.jobs.ScrapperJob;
 import io.dropwizard.Application;
@@ -21,6 +22,8 @@ public class JournalSearchApplication extends Application<JournalSearchConfigura
     public void run(JournalSearchConfiguration journalSearchConfiguration, Environment environment)
             throws Exception {
         environment.healthChecks().register("default", new DefaultHealthCheck());
+        environment.servlets().addFilter("Custom-Filter", RequestFilter.class)
+                .addMappingForUrlPatterns(java.util.EnumSet.allOf(javax.servlet.DispatcherType.class), true, "/*");
         var scheduler = StdSchedulerFactory.getDefaultScheduler();
         scheduler.setJobFactory(new GuiceJobFactory(guice.getInjector()));
         scheduler.start();

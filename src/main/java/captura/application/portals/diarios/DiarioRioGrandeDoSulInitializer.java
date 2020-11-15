@@ -6,6 +6,8 @@ import captura.core.ScrapperInitializer;
 import captura.domain.ArticleRepository;
 import org.json.JSONArray;
 import org.json.JSONObject;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import javax.inject.Inject;
 import java.io.IOException;
@@ -16,13 +18,15 @@ import java.util.HashMap;
 public class DiarioRioGrandeDoSulInitializer extends ScrapperInitializer {
 
     private final ArticleRepository repository;
+    private final Logger logger = LoggerFactory.getLogger(this.getClass().getCanonicalName());
 
     @Inject
     public DiarioRioGrandeDoSulInitializer(ArticleRepository model) {
         this.repository = model;
     }
 
-    public void init() throws IOException, InvalidArticleObject {
+    public void init() throws IOException {
+        this.logger.info("start execution to scrap data");
         int page = 1;
         var data = this.getJsonData(page);
         this.iterateJsonDataToScrap(data.getJSONArray("collection"));

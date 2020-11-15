@@ -2,6 +2,8 @@ package captura.infra;
 
 import captura.core.InvalidArticleObject;
 import captura.application.portals.diarios.DiarioRioGrandeDoSulInitializer;
+import org.slf4j.LoggerFactory;
+import org.slf4j.MDC;
 
 import javax.inject.Inject;
 import javax.ws.rs.GET;
@@ -20,7 +22,7 @@ public class ScrappersResource {
 
     @GET
     @Path("/diario")
-    public Response run() throws IOException, InvalidArticleObject {
+    public Response run() throws IOException {
         this.diarioRioGrandeDoSulInitializer.init();
         return Response.ok().build();
     }

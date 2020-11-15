@@ -9,7 +9,12 @@ import javax.validation.constraints.NotNull;
 
 public class JournalSearchConfiguration extends Configuration {
 
-    @Valid @NotNull private DataSourceFactory database = new DataSourceFactory();
+    @Valid
+    @NotNull
+    private DataSourceFactory database = new DataSourceFactory();
+
+    @JsonProperty("schedule")
+    private String schedule;
 
     @JsonProperty("database")
     public DataSourceFactory getDataSourceFactory() {
@@ -19,5 +24,13 @@ public class JournalSearchConfiguration extends Configuration {
     @JsonProperty("database")
     public void setDataSourceFactory(DataSourceFactory dataSourceFactory) {
         this.database = dataSourceFactory;
+    }
+
+    public void setSchedule(String schedule) {
+        this.schedule = schedule;
+    }
+
+    public String getSchedule() {
+        return schedule;
     }
 }

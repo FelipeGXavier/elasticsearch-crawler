@@ -8,7 +8,7 @@ import java.util.Map;
 
 public class Scrapper {
 
-    private final int TIMEOUT_CONNECTION = 12000;
+    private final int TIMEOUT_CONNECTION = 60000;
 
     protected String get(String url, Map<String, String> headers) throws IOException {
         return Jsoup.connect(url)

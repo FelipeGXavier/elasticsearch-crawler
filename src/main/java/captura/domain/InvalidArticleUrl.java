@@ -1,4 +1,4 @@
-package captura.exceptions;
+package captura.domain;
 
 public class InvalidArticleUrl extends RuntimeException {
 

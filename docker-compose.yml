@@ -1,14 +1,15 @@
-version: "3.7"
+version: "3.3"
 services:
-  db:
-    image: postgres
+  database:
+    container_name: database
+    build:
+      context: docker/db
     ports:
       - "5432:5432"
-    volumes:
-      - ./init.sql:/docker-entrypoint-initdb.d/init.sql
-    environment:
-      POSTGRES_USER: "postgres"
-      POSTGRES_PASSWORD: "postgres"
   app:
+    container_name: app
     build:
       context: .
+    ports:
+      - "8080:8080"
+      - "8081:8081"

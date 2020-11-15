@@ -11,8 +11,7 @@ database:
   user: postgres
   driverClass: org.postgresql.Driver
   password: postgres
-  url: jdbc:postgresql://db:5432/journal
-  properties:
-    charSet: UTF-8
-    hibernate.dialect: org.hibernate.dialect.PostgreSQLDialect
-    hibernate.hbm2ddl.auto: create-drop
+  url: jdbc:postgresql://172.21.0.2:5432/journal
+
+schedule: "0 0 0/12 ? * * *"
+

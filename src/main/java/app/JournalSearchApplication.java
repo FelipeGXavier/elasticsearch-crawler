@@ -1,13 +1,17 @@
 package app;
 
-import captura.infra.entities.ArticleEntity;
 import captura.infra.health.DefaultHealthCheck;
+import captura.infra.jobs.ScrapperJob;
 import io.dropwizard.Application;
 import io.dropwizard.setup.Bootstrap;
 import io.dropwizard.setup.Environment;
+import org.quartz.*;
+import org.quartz.impl.StdSchedulerFactory;
 import ru.vyarus.dropwizard.guice.GuiceBundle;
 
 public class JournalSearchApplication extends Application<JournalSearchConfiguration> {
+
+    public static GuiceBundle guice;
 
     public static void main(String[] args) throws Exception {
         new JournalSearchApplication().run(args);
@@ -17,17 +21,26 @@ public class JournalSearchApplication extends Application<JournalSearchConfigura
     public void run(JournalSearchConfiguration journalSearchConfiguration, Environment environment)
             throws Exception {
         environment.healthChecks().register("default", new DefaultHealthCheck());
+        var scheduler = StdSchedulerFactory.getDefaultScheduler();
+        scheduler.setJobFactory(new GuiceJobFactory(guice.getInjector()));
+        scheduler.start();
+        var job = JobBuilder.newJob(ScrapperJob.class)
+                .withIdentity("scrapper", "diario")
+                .build();
+        var trigger = TriggerBuilder
+                .newTrigger()
+                .withSchedule(CronScheduleBuilder.cronSchedule(journalSearchConfiguration.getSchedule()))
+                .build();
+        scheduler.scheduleJob(job, trigger);
     }
 
     @Override
     public void initialize(Bootstrap<JournalSearchConfiguration> bootstrap) {
-        var hbnBundle = new HbnBundle(ArticleEntity.class);
-        bootstrap.addBundle(hbnBundle);
-        bootstrap.addBundle(
-                GuiceBundle.builder()
-                        .enableAutoConfig("captura")
-                        .printDiagnosticInfo()
-                        .modules(new HbnModule(hbnBundle))
-                        .build());
+        guice = GuiceBundle.builder()
+                .enableAutoConfig("captura")
+                .printDiagnosticInfo()
+                .modules(new DependencyModule())
+                .build();
+        bootstrap.addBundle(guice);
     }
 }

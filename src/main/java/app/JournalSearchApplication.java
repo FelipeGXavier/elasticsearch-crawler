@@ -6,7 +6,9 @@ import captura.infra.jobs.ScrapperJob;
 import io.dropwizard.Application;
 import io.dropwizard.setup.Bootstrap;
 import io.dropwizard.setup.Environment;
-import org.quartz.*;
+import org.quartz.CronScheduleBuilder;
+import org.quartz.JobBuilder;
+import org.quartz.TriggerBuilder;
 import org.quartz.impl.StdSchedulerFactory;
 import ru.vyarus.dropwizard.guice.GuiceBundle;
 
@@ -40,7 +42,7 @@ public class JournalSearchApplication extends Application<JournalSearchConfigura
     @Override
     public void initialize(Bootstrap<JournalSearchConfiguration> bootstrap) {
         guice = GuiceBundle.builder()
-                .enableAutoConfig("captura")
+                .enableAutoConfig("captura", "busca")
                 .printDiagnosticInfo()
                 .modules(new DependencyModule())
                 .build();

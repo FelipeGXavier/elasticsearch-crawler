@@ -1,7 +1,8 @@
 package app;
 
+import busca.application.JournalFinder;
+import busca.application.impl.JournalTextMatcher;
 import captura.domain.ArticleRepository;
-import com.google.inject.name.Names;
 import io.dropwizard.jdbi3.JdbiFactory;
 import ru.vyarus.dropwizard.guice.module.support.ConfigurationAwareModule;
 import ru.vyarus.dropwizard.guice.module.support.DropwizardAwareModule;
@@ -19,6 +20,7 @@ public class DependencyModule extends DropwizardAwareModule<JournalSearchConfigu
         final var jdbi = factory.build(environment, this.configuration.getDataSourceFactory(), "postgresql");
         bind(ArticleRepository.class).toInstance(jdbi.onDemand(ArticleRepository.class));
         bind(ElasticConnection.class).toProvider(() -> new ElasticConnection(this.configuration));
+        bind(JournalFinder.class).to(JournalTextMatcher.class);
     }
 
     @Override

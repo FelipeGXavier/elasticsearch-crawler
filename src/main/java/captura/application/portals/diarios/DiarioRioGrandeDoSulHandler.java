@@ -1,16 +1,16 @@
 package captura.application.portals.diarios;
 
-import captura.infra.JsonConverterUtil;
 import captura.core.ScrapperHandler;
 import captura.domain.Article;
 import captura.domain.ArticleObject;
 import captura.domain.ArticleRepository;
 import captura.domain.ArticleUrl;
+import captura.infra.ElasticSearchClient;
+import captura.infra.JsonConverterUtil;
 import org.json.JSONObject;
 import org.jsoup.Jsoup;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import shared.ElasticSearchClient;
 
 import java.io.IOException;
 import java.time.LocalDateTime;

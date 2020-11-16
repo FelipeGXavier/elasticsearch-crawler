@@ -1,14 +1,14 @@
-package shared;
+package captura.infra;
 
 import org.elasticsearch.action.DocWriteResponse;
 import org.elasticsearch.action.index.IndexRequest;
 import org.elasticsearch.action.index.IndexResponse;
-import org.elasticsearch.action.search.SearchRequest;
 import org.elasticsearch.client.RequestOptions;
 import org.elasticsearch.client.RestHighLevelClient;
 import org.elasticsearch.common.unit.TimeValue;
 import org.elasticsearch.common.xcontent.XContentType;
 import org.json.JSONObject;
+import shared.ElasticConnection;
 
 import javax.inject.Inject;
 import java.io.IOException;

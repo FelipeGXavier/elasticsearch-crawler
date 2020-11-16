@@ -5,8 +5,6 @@ import org.apache.http.HttpHost;
 import org.elasticsearch.client.RestClient;
 import org.elasticsearch.client.RestHighLevelClient;
 
-import javax.inject.Inject;
-
 final public class ElasticConnection {
 
     private RestHighLevelClient client;

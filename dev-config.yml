@@ -18,7 +18,7 @@ database:
   user: postgres
   driverClass: org.postgresql.Driver
   password: postgres
-  url: jdbc:postgresql://172.21.0.2:5432/journal
+  url: jdbc:postgresql://database:5432/journal
 
 logging:
   appenders:

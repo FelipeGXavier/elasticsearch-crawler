@@ -28,21 +28,21 @@ public class JournalTextMatcher implements JournalFinder {
     }
 
     public JSONArray find(SearchFilter request, QueryOperatorBuilder operator) throws IOException {
-        var bool = new BoolQueryBuilder();
-        var builder = new SearchSourceBuilder();
+        var boolQueryBuilder = new BoolQueryBuilder();
+        var parentBuilder = new SearchSourceBuilder();
         var highlightBuilder = new HighlightBuilder()
                 .postTags("<em>")
                 .preTags("</em>")
                 .fragmentSize(15000)
                 .field("content");
-        builder.highlighter(highlightBuilder);
-        bool.must(operator.getElasticQuery());
+        parentBuilder.highlighter(highlightBuilder);
+        boolQueryBuilder.must(operator.getElasticQuery());
         if (request.getTimestamp() != null) {
-            bool.must(QueryBuilders.rangeQuery("created_at").gte(request.getTimestamp().toString()));
+            boolQueryBuilder.must(QueryBuilders.rangeQuery("created_at").gte(request.getTimestamp().toString()));
         }
-        builder.query(bool);
+        parentBuilder.query(boolQueryBuilder);
         var search = new SearchRequest();
-        search.source(builder);
+        search.source(parentBuilder);
         var response = this.connection.getClient().search(search, RequestOptions.DEFAULT);
         return this.mapHitsToJson(response);
     }

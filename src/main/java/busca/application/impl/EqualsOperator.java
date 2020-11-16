@@ -19,17 +19,17 @@ public class EqualsOperator implements QueryOperatorBuilder {
     }
 
     public BoolQueryBuilder getElasticQuery() {
-        var builder = new BoolQueryBuilder();
+        var boolQueryBuilder = new BoolQueryBuilder();
         if (this.affirmations.size() > 0) {
             this.affirmations.forEach(affirmation -> {
-                builder.should(QueryBuilders.matchPhraseQuery("content", this.phrase + " " + affirmation).slop(10)).minimumShouldMatch(1);
+                boolQueryBuilder.should(QueryBuilders.matchPhraseQuery("content", this.phrase + " " + affirmation).slop(10)).minimumShouldMatch(1);
             });
         } else {
-            builder.should(QueryBuilders.matchPhraseQuery("content", this.phrase));
+            boolQueryBuilder.should(QueryBuilders.matchPhraseQuery("content", this.phrase));
         }
         this.denials.forEach(denial -> {
-            builder.mustNot(QueryBuilders.matchPhraseQuery("content", this.phrase + " " + denial).slop(10)).minimumShouldMatch(1);
+            boolQueryBuilder.mustNot(QueryBuilders.matchPhraseQuery("content", this.phrase + " " + denial).slop(10)).minimumShouldMatch(1);
         });
-        return builder;
+        return boolQueryBuilder;
     }
 }

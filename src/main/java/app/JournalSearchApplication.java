@@ -1,5 +1,6 @@
 package app;
 
+import busca.infra.ExceptionHandler;
 import captura.infra.RequestFilter;
 import captura.infra.health.DefaultHealthCheck;
 import captura.infra.jobs.ScrapperJob;
@@ -26,6 +27,7 @@ public class JournalSearchApplication extends Application<JournalSearchConfigura
         environment.healthChecks().register("default", new DefaultHealthCheck());
         environment.servlets().addFilter("Custom-Filter", RequestFilter.class)
                 .addMappingForUrlPatterns(java.util.EnumSet.allOf(javax.servlet.DispatcherType.class), true, "/*");
+        environment.jersey().register(new ExceptionHandler());
         var scheduler = StdSchedulerFactory.getDefaultScheduler();
         scheduler.setJobFactory(new GuiceJobFactory(guice.getInjector()));
         scheduler.start();

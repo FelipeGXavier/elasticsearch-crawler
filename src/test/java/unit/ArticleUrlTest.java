@@ -6,6 +6,9 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+
 public class ArticleUrlTest {
 
     @Test
@@ -23,7 +26,7 @@ public class ArticleUrlTest {
     public void checkValidUrl() throws InvalidArticleUrl {
         final var url = "https://www.google.com/";
         var articleUrl = ArticleUrl.of(url);
-        Assertions.assertEquals(articleUrl.getUrl(), url);
+        assertEquals(articleUrl.getUrl(), url);
     }
 
     @Test
@@ -38,6 +41,6 @@ public class ArticleUrlTest {
                         });
         var expectedMessage = "Invalid url";
         var actualMessage = exception.getMessage();
-        Assertions.assertTrue(actualMessage.contains(expectedMessage));
+        assertTrue(actualMessage.contains(expectedMessage));
     }
 }

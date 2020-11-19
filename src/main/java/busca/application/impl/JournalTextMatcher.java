@@ -27,7 +27,7 @@ public class JournalTextMatcher implements JournalFinder {
         this.connection = connection;
     }
 
-    public JSONArray find(SearchFilter request, QueryOperatorBuilder operator) throws IOException {
+    public JSONObject find(SearchFilter request, QueryOperatorBuilder operator, int page) throws IOException {
         var boolQueryBuilder = new BoolQueryBuilder();
         var parentBuilder = new SearchSourceBuilder();
         var highlightBuilder = new HighlightBuilder()
@@ -40,24 +40,27 @@ public class JournalTextMatcher implements JournalFinder {
         if (request.getTimestamp() != null) {
             boolQueryBuilder.must(QueryBuilders.rangeQuery("created_at").gte(request.getTimestamp().toString()));
         }
-        parentBuilder.query(boolQueryBuilder);
+        parentBuilder.query(boolQueryBuilder).size(10).from((page * 10) - 10);
         var search = new SearchRequest();
         search.source(parentBuilder);
         var response = this.connection.getClient().search(search, RequestOptions.DEFAULT);
         return this.mapHitsToJson(response);
     }
 
-    private JSONArray mapHitsToJson(SearchResponse response) {
+    private JSONObject mapHitsToJson(SearchResponse response) {
         var hits = response.getHits().getHits();
-        var data = new JSONArray();
+        var data = new JSONObject();
+        data.put("total", response.getHits().getTotalHits().value);
+        var result = new JSONArray();
         Arrays.stream(hits).forEach(hit -> {
             var json = new JSONObject(hit.toString());
             var article = new JSONObject();
             article.put("url", json.getJSONObject("_source").getString("url"));
             article.put("created_at", json.getJSONObject("_source").getString("created_at"));
             article.put("content", json.getJSONObject("highlight").getJSONArray("content").get(0).toString());
-            data.put(article);
+            result.put(article);
         });
+        data.put("result", result);
         return data;
     }
 

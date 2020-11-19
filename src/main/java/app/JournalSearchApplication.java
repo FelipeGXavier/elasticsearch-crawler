@@ -1,6 +1,6 @@
 package app;
 
-import captura.core.RequestFilter;
+import captura.infra.RequestFilter;
 import captura.infra.health.DefaultHealthCheck;
 import captura.infra.jobs.ScrapperJob;
 import io.dropwizard.Application;

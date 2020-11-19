@@ -56,7 +56,7 @@ public class DiarioRioGrandeDoSulInitializer extends ScrapperInitializer {
 
     private String formatRequestUrl(int page) {
         var formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
-        var now = formatter.format(LocalDate.now().minusDays(3L));
+        var now = formatter.format(LocalDate.now());
         var baseUrl = "https://secweb.procergs.com.br";
         var searchUrl = "/doe/rest/public/materias/?page=%d&tipoDiario=DOE&dataIni=%s&dataFim=%s";
         return String.format(baseUrl + searchUrl, page, now, now);

@@ -1,11 +1,11 @@
 package busca.application;
 
 import busca.infra.SearchFilter;
-import org.json.JSONArray;
+import org.json.JSONObject;
 
 import java.io.IOException;
 
 public interface JournalFinder {
 
-    JSONArray find(SearchFilter filter, QueryOperatorBuilder operator) throws IOException;
+    JSONObject find(SearchFilter filter, QueryOperatorBuilder operator, int from) throws IOException;
 }

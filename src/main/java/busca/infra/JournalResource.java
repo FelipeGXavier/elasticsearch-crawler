@@ -7,10 +7,7 @@ import busca.application.impl.EqualsOperator;
 import busca.core.SearchOperator;
 
 import javax.inject.Inject;
-import javax.ws.rs.Consumes;
-import javax.ws.rs.POST;
-import javax.ws.rs.Path;
-import javax.ws.rs.Produces;
+import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import java.io.IOException;
 
@@ -28,8 +25,8 @@ public class JournalResource {
     @POST
     @Path("/find")
     @Consumes(MediaType.APPLICATION_JSON)
-    public String find(SearchFilter request) throws IOException {
-        var hits = this.finder.find(request, this.getQueryBuilderFromOperator(request.getOperator(), request));
+    public String find(SearchFilter request, @DefaultValue("0") @QueryParam("page") int page) throws IOException {
+        var hits = this.finder.find(request, this.getQueryBuilderFromOperator(request.getOperator(), request), page);
         return hits.toString();
     }
 

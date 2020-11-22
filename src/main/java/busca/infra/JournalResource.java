@@ -1,6 +1,7 @@
 package busca.infra;
 
 import busca.application.JournalFinder;
+import io.swagger.annotations.Api;
 import shared.FindOperator;
 
 import javax.inject.Inject;
@@ -10,6 +11,7 @@ import java.io.IOException;
 
 @Path("/journal")
 @Produces(MediaType.APPLICATION_JSON)
+@Api
 public class JournalResource {
 
     private JournalFinder finder;

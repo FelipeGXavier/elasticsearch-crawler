@@ -2,6 +2,7 @@ package envio.infra;
 
 import busca.application.JournalFinder;
 import envio.application.MailSender;
+import io.swagger.annotations.Api;
 
 import javax.inject.Inject;
 import javax.ws.rs.GET;
@@ -14,6 +15,7 @@ import java.io.IOException;
 
 @Path("/sender")
 @Produces(MediaType.APPLICATION_JSON)
+@Api
 public class MailSenderResource {
 
     private MailSender mailService;

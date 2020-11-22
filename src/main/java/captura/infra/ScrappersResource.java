@@ -1,6 +1,7 @@
 package captura.infra;
 
 import captura.application.portals.diarios.DiarioRioGrandeDoSulInitializer;
+import io.swagger.annotations.Api;
 
 import javax.inject.Inject;
 import javax.ws.rs.GET;
@@ -12,6 +13,7 @@ import java.io.IOException;
 
 @Path("/scrapper")
 @Produces(MediaType.APPLICATION_JSON)
+@Api
 public class ScrappersResource {
 
     private DiarioRioGrandeDoSulInitializer diarioRioGrandeDoSulInitializer;

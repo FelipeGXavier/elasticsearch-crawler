@@ -7,6 +7,8 @@ import captura.infra.jobs.ScrapperJob;
 import io.dropwizard.Application;
 import io.dropwizard.setup.Bootstrap;
 import io.dropwizard.setup.Environment;
+import io.federecio.dropwizard.swagger.SwaggerBundle;
+import io.federecio.dropwizard.swagger.SwaggerBundleConfiguration;
 import org.quartz.CronScheduleBuilder;
 import org.quartz.JobBuilder;
 import org.quartz.TriggerBuilder;
@@ -49,5 +51,11 @@ public class JournalSearchApplication extends Application<JournalSearchConfigura
                 .modules(new DependencyModule())
                 .build();
         bootstrap.addBundle(guice);
+        bootstrap.addBundle(new SwaggerBundle<>() {
+            @Override
+            protected SwaggerBundleConfiguration getSwaggerBundleConfiguration(JournalSearchConfiguration configuration) {
+                return configuration.swaggerBundleConfiguration;
+            }
+        });
     }
 }

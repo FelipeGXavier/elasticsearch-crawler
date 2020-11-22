@@ -36,3 +36,6 @@ apiKey: ""
 
 schedule: "0 0 0/12 ? * * *"
 
+swagger:
+  resourcePackage: envio.infra,captura.infra,busca.infra
+  title: "Journal Search"

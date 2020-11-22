@@ -30,8 +30,9 @@ logging:
 
 elastic:
   port: 9200
-  host: "localhost"
+  host: "elastic"
 
+apiKey: ""
 
 schedule: "0 0 0/12 ? * * *"
 

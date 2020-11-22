@@ -44,7 +44,7 @@ public class JournalSearchApplication extends Application<JournalSearchConfigura
     @Override
     public void initialize(Bootstrap<JournalSearchConfiguration> bootstrap) {
         guice = GuiceBundle.builder()
-                .enableAutoConfig("captura", "busca")
+                .enableAutoConfig("captura", "busca", "envio")
                 .printDiagnosticInfo()
                 .modules(new DependencyModule())
                 .build();

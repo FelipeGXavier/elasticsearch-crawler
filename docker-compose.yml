@@ -17,7 +17,7 @@ services:
     #sudo sysctl -w vm.max_map_count=280530
     image: docker.elastic.co/elasticsearch/elasticsearch:7.8.0
     container_name: elastic
-    network_mode: 'host'
+    #network_mode: 'host'
     environment:
       - node.name=es01
       - cluster.name=es-docker-cluster
@@ -31,7 +31,7 @@ services:
   kibana:
     image: docker.elastic.co/kibana/kibana:7.8.0
     container_name: 'kibana'
-    network_mode: "host"
+    #network_mode: "host"
     environment:
-      ELASTICSEARCH_HOSTS: http://localhost:9200
+      ELASTICSEARCH_HOSTS: http://elastic:9200
 

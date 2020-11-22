@@ -1,5 +1,6 @@
-package captura.infra;
+package captura.infra.persistence;
 
+import envio.domain.User;
 import org.elasticsearch.action.DocWriteResponse;
 import org.elasticsearch.action.index.IndexRequest;
 import org.elasticsearch.action.index.IndexResponse;

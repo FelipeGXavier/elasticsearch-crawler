@@ -16,6 +16,9 @@ public class JournalSearchConfiguration extends Configuration {
     @JsonProperty("schedule")
     private String schedule;
 
+    @JsonProperty("apiKey")
+    private String apiKey;
+
     @JsonProperty("elastic")
     private ElasticConfiguration elasticConfiguration;
 
@@ -43,5 +46,21 @@ public class JournalSearchConfiguration extends Configuration {
 
     public void setElasticConfiguration(ElasticConfiguration elasticConfiguration) {
         this.elasticConfiguration = elasticConfiguration;
+    }
+
+    public DataSourceFactory getDatabase() {
+        return database;
+    }
+
+    public void setDatabase(DataSourceFactory database) {
+        this.database = database;
+    }
+
+    public String getApiKey() {
+        return apiKey;
+    }
+
+    public void setApiKey(String apiKey) {
+        this.apiKey = apiKey;
     }
 }

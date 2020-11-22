@@ -14,8 +14,12 @@ import java.io.IOException;
 @Produces(MediaType.APPLICATION_JSON)
 public class ScrappersResource {
 
-    @Inject
     private DiarioRioGrandeDoSulInitializer diarioRioGrandeDoSulInitializer;
+
+    @Inject
+    public ScrappersResource(DiarioRioGrandeDoSulInitializer diarioRioGrandeDoSulInitializer) {
+        this.diarioRioGrandeDoSulInitializer = diarioRioGrandeDoSulInitializer;
+    }
 
     @GET
     @Path("/diario")

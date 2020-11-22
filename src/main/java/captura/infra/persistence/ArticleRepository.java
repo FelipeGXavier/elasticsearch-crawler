@@ -1,4 +1,4 @@
-package captura.domain;
+package captura.infra.persistence;
 
 import org.jdbi.v3.sqlobject.customizer.Bind;
 import org.jdbi.v3.sqlobject.statement.SqlUpdate;

@@ -4,8 +4,8 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 
 public enum SearchOperator {
 
-    @JsonProperty("0")
+    @JsonProperty("EQUALS")
     EQUALS,
-    @JsonProperty("1")
+    @JsonProperty("CONTAINS")
     CONTAINS;
 }

@@ -1,10 +1,7 @@
 package busca.infra;
 
 import busca.application.JournalFinder;
-import busca.application.QueryOperatorBuilder;
-import busca.application.impl.ContainsOperator;
-import busca.application.impl.EqualsOperator;
-import busca.core.SearchOperator;
+import shared.FindOperator;
 
 import javax.inject.Inject;
 import javax.ws.rs.*;
@@ -25,23 +22,9 @@ public class JournalResource {
     @POST
     @Path("/find")
     @Consumes(MediaType.APPLICATION_JSON)
-    public String find(SearchFilter request, @DefaultValue("0") @QueryParam("page") int page) throws IOException {
-        var hits = this.finder.find(request, this.getQueryBuilderFromOperator(request.getOperator(), request), page);
+    public String find(SearchFilter request, @DefaultValue("1") @QueryParam("page") int page) throws IOException {
+        var hits = this.finder.find(request, FindOperator.getQueryBuilderFromOperator(request), page);
         return hits.toString();
     }
-
-    private QueryOperatorBuilder getQueryBuilderFromOperator(SearchOperator operator, SearchFilter filter) {
-        QueryOperatorBuilder query = null;
-        switch (operator) {
-            case EQUALS:
-                query = new EqualsOperator(filter.getAffirmations(), filter.getDenials(), filter.getSearchPhrase());
-                break;
-            case CONTAINS:
-                query = new ContainsOperator(filter.getAffirmations(), filter.getDenials(), filter.getSearchPhrase());
-                break;
-        }
-        return query;
-    }
-
 
 }
